@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zodiac.mapper.ElementTraitMapper" >
+	<!-- findById-->
+	<select id="findById" resultType="com.zodiac.model.ElementTrait">
+		select * from element_Trait ef where ef.element_trait_id = #{elementTraitId}
+	</select>
+	<!-- findByElementId-->
+	<select id="findByElementId" resultType="com.zodiac.model.ElementTrait">
+		select * from element_trait ef where ef.element_id = #{elementId}
+	</select>
+	<!-- findAll-->
+	<select id="findAll" resultType="com.zodiac.model.ElementTrait">
+		select * from element_trait ef
+	</select>
+</mapper>

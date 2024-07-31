@@ -1,0 +1,21 @@
+# version: "3.8"
+services:
+  db:
+    container_name: "postgres"
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: sky77619
+    ports:
+      - "5431:5432"
+  backend:
+    container_name: "spring-docker-demo"
+    build: ./
+    image: spring-docker-jar:latest
+    entrypoint: ["java", "-Dspring.profiles.active=local", "-jar", "/demo.jar"]
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db

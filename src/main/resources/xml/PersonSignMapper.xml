@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zodiac.mapper.PersonSignMapper" >
+	<!-- save all -->
+	<insert id="saveAll" parameterType="java.util.ArrayList">
+		insert into person_sign (person_id, sign_id, person_sign_number, percent) values
+		<foreach collection="list" item="personSignList" separator=",">
+			(#{personSignList.personId}, #{personSignList.signId}, #{personSignList.personSignNumber}, #{personSignList.percent})
+		</foreach>
+	</insert>
+	<!-- delete -->
+	<delete id="delete">
+		delete from person_sign ps
+		where ps.person_id = #{personId}
+	</delete>
+	<!-- person findById -> findByPersonId -->
+	<resultMap id="findByPersonIdRes" type="com.zodiac.model.PersonSign">
+		<id property="personId" column="person_id"></id>
+		<result property="signId" column="sign_id"></result>
+		<association property="sign" 
+					select="com.zodiac.mapper.SignMapper.findById" 
+					column="sign_id"></association>
+	</resultMap>
+	
+	<select id="findByPersonId" resultMap="findByPersonIdRes">
+		select * from person_sign ps where ps.person_id = #{personId}
+	</select>
+	
+	<!-- person findAll -> findByPersonId -->
+	<resultMap id="personFindAllRes" type="com.zodiac.model.PersonSign">
+		<id property="personId" column="person_id"></id>
+		<result property="signId" column="sign_id"></result>
+		<result property="personScopeNumber" column="person_scope_number"></result>
+		<association property="sign" 
+					select="com.zodiac.mapper.SignMapper.findByIdEnd" 
+					column="sign_id"></association>
+		<association property="personScope" 
+					select="com.zodiac.mapper.PersonScopeMapper.findByPersonScopeNumber" 
+					column="person_scope_number"></association>
+
+	</resultMap>
+	<!-- person findAll -> findByPersonIdForPersonFindAll -->
+	<select id="findByPersonIdForPersonFindAll" resultMap="personFindAllRes">
+		select * from person_sign ps where ps.person_id = #{personId}
+	</select>
+	
+	
+</mapper>

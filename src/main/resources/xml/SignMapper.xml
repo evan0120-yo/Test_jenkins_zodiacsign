@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zodiac.mapper.SignMapper" >
+	<!-- findById-->
+	<resultMap id="findByIdRes" type="com.zodiac.model.Sign">
+		<id property="signId" column="sign_id"></id>
+		<result property="elementId" column="element_id"></result>
+		<association property="element" 
+					select="com.zodiac.mapper.ElementMapper.findById" 
+					column="element_id"></association>
+	</resultMap>
+	<select id="findById" resultMap="findByIdRes">
+		select * from sign s where sign_id = #{sigId}
+	</select> 
+	<!-- findByIdEnd-->
+	<select id="findByIdEnd" resultType="com.zodiac.model.Sign">
+		select * from sign s where sign_id = #{sigId}
+	</select> 
+	<!-- findAll-->
+	<resultMap id="findAllRes" type="com.zodiac.model.Sign">
+		<id property="signId" column="sign_id"></id>
+		<result property="element.elementId" column="element_id"></result>
+		<result property="element.elementName" column="element_name"></result>
+		<result property="elementId" column="element_id"></result>
+		
+	</resultMap>
+
+	<select id="findAll" resultType="com.zodiac.model.Sign">
+		select * from sign s 
+		left join element e on e.element_id = s.element_id 
+	</select> 
+	<!-- findBySerialNumber-->
+	<select id="findBySerialNumber" resultType="com.zodiac.model.Sign">
+		select * from sign s 
+		where s.serial_number = #{serialNumber}
+	</select>	
+	<!-- findByBirthDay-->
+	<select id="findByBirthDay" resultType="com.zodiac.model.Sign">
+		<![CDATA[ 
+		select * from sign s 
+		where s.start_date <= #{birthDay} and s.end_date >= #{birthDay}
+		]]>
+	</select>	
+	
+</mapper>
